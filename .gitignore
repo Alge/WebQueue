@@ -16,3 +16,7 @@ tests/coverage_html/
 tests/.coverage
 build/
 tests/report/
+.idea/vcs.xml
+.idea/workspace.xml
+db.sqlite3
+queueApp/migrations/*
