@@ -1,0 +1,64 @@
+{% extends 'queueApp/base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        </br>
+        </br>
+        </br>
+        </br>
+
+        {% if queues %}
+
+
+            <div class="row">
+
+                <div class="col-md-12">
+                    <h1>Öppna köer</h1>
+                </div>
+            </div>
+            <div class="container">
+                {% for queue in queues%}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="/q/{{queue.pk}}"><h3>{{queue.name}} ({{queue.QueuePlace_set.all|length}} personer)</h3> </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        {% else %}
+
+        <div class="row">
+
+                <div class="col-md-12">
+                    <h1>Inga öppna köer</h1>
+                </div>
+            </div>
+
+        {% endif %}
+        {% if user.is_authenticated %}
+        <div class="row">
+            <div class="col-md-12">
+                <h2>starta en ny kö</h2>
+            </div>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    namn
+                </div>
+                <div class="col-md-6">
+                    <input type="text" name="name">
+                </div>
+            </div>
+            <div class="row">
+                <input type="submit" value="Lägg till">
+            </div>
+        </form>
+        {% endif %}
+    </div>
+
+{% endblock %}

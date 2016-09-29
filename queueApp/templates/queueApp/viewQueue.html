@@ -1,0 +1,75 @@
+{% extends 'queueApp/base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        </br>
+        </br>
+        </br>
+        </br>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10">
+                    <h2>namn på kön</h2>
+                </div>
+                <div class="col-md-2">
+                    <form method="post" onsubmit="return confirm('Är du säker på att du vill ta bort kön?');">
+                        {% csrf_token %}
+                        <input type="hidden" value="1">
+                        <input type="submit" value="Ta bort kö">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md12">
+                    <h4>Lägg till dig själv i kön</h4>
+                </div>
+            </div>
+            <div class="row">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="col-md-4">
+                            <label>Namn </label><input type="text" name="name">
+                    </div>
+                    <div class="col-md-4">
+                             <label>plats </label><input type="text" name="location">
+                    </div>
+                    <div class="col-md-4">
+                             <input type="submit" value="lägg till">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="container" style="margin-top:40px;">
+            <div class="row">
+                <div class="col-md-4">
+                    namn på person
+                </div>
+                <div class="col-md-4">
+                    klassrum nr 1
+                </div>
+                <div class="col-md-4">
+                    {% if user.is_authenticated %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value="placement_id">
+                        <input type="submit" value="Ta bort">
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+{% endblock %}

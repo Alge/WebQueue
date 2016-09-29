@@ -16,8 +16,12 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from .views import index, viewQueue, login
+from django.contrib.auth.views import logout
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^', include('queueApp.urls'))
+    url(r'^$', index, name="index"),
+    url(r'^q/(?P<queue_id>[0-9]+)/$', viewQueue, name="viewQueue"),
+    url(r'^login/$', login, name="login"),
+    url(r'^logout/$', logout, {'next_page': '/'}),
 ]
