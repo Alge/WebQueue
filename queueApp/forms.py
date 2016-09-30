@@ -16,6 +16,11 @@ class MakeQueue(forms.Form):
         max_length=100
     )
 
+class RemoveFromQueueForm(forms.Form):
+    placement_id = forms.IntegerField(
+        required=True
+    )
+
 class DeleteQueueForm(forms.Form):
     queue_id = forms.IntegerField()
 

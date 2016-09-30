@@ -3,7 +3,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .forms import LoginForm, MakeQueue, AddQueuePlaceForm, DeleteQueueForm
+from .forms import LoginForm, MakeQueue, AddQueuePlaceForm, DeleteQueueForm, RemoveFromQueueForm
 from .models import Queue, QueuePlace
 # Create your views here.
 
@@ -31,6 +31,34 @@ def index(request):
 def viewQueue(request, queue_id):
 
 
+    if(request.method== 'POST'):
+
+        if("deleteQueue" in request.POST.keys()) and request.user.is_authenticated:
+
+            form = DeleteQueueForm(request.POST)
+            if form.is_valid():
+                q = Queue.objects.filter(pk=form.cleaned_data['queue_id'])
+                q.delete()
+                redirect("/")
+
+        elif "addToQueue" in request.POST.keys():
+            form = AddQueuePlaceForm(request.POST)
+            if form.is_valid():
+                queue = form.cleaned_data['queue_id']
+                qp = QueuePlace()
+                qp.queue = queue
+                qp.name = form.cleaned_data['name']
+                qp.place = form.cleaned_data['place']
+                pq.save()
+
+        elif "placement_id" in request.POST.keys() and request.user.is_authenticated:
+            form = RemoveFromQueueForm(request.POST)
+            if form.is_valid():
+                qp = QueuePlace.objects.filter(pk=form.cleaned_data['placement_id']).first()
+                qp.delete()
+
+
+
     queue = Queue.objects.filter(pk=int(queue_id)).first()
     placementList = QueuePlace.objects.filter(queue=queue).order_by('timestamp')
 
@@ -40,6 +68,7 @@ def viewQueue(request, queue_id):
         'queuePlacements'   :   placementList,
         'addToQueueForm'    :   AddQueuePlaceForm(),
         'deleteQueueForm'   :   DeleteQueueForm(),
+        'removeFromQueueForm':  RemoveFromQueueForm(),
 
     }
 
