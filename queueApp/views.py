@@ -9,7 +9,6 @@ from .models import Queue, QueuePlace
 
 def index(request):
 
-
     if request.method == 'POST' and request.user.is_authenticated:
         form = MakeQueue(request.POST)
         if form.is_valid():
